@@ -29,7 +29,7 @@ def parse_args():
         'Note that the quotation marks are necessary and that no white space '
         'is allowed.')
     parser.add_argument(
-        '--eval-options',
+        '--metric-options',
         nargs='+',
         action=DictAction,
         help='custom options for evaluation, the key-value pair in xxx=yyy '
@@ -41,30 +41,29 @@ def parse_args():
 def main():
     args = parse_args()
 
+    outputs = mmcv.load(args.pkl_results)
+    assert 'class_scores' in outputs, \
+        'No "class_scores" in result file, please set "--out-items" in test.py'
+
     cfg = Config.fromfile(args.config)
     assert args.metrics, (
         'Please specify at least one metric the argument "--metrics".')
 
     if args.cfg_options is not None:
         cfg.merge_from_dict(args.cfg_options)
-    # import modules from string list.
-    if cfg.get('custom_imports', None):
-        from mmcv.utils import import_modules_from_strings
-        import_modules_from_strings(**cfg['custom_imports'])
     cfg.data.test.test_mode = True
 
     dataset = build_dataset(cfg.data.test)
-    outputs = mmcv.load(args.pkl_results)
     pred_score = outputs['class_scores']
 
-    kwargs = {} if args.eval_options is None else args.eval_options
     eval_kwargs = cfg.get('evaluation', {}).copy()
     # hard-code way to remove EvalHook args
     for key in [
             'interval', 'tmpdir', 'start', 'gpu_collect', 'save_best', 'rule'
     ]:
         eval_kwargs.pop(key, None)
-    eval_kwargs.update(dict(metric=args.metrics, **kwargs))
+    eval_kwargs.update(
+        dict(metric=args.metrics, metric_options=args.metric_options))
     print(dataset.evaluate(pred_score, **eval_kwargs))
 
 

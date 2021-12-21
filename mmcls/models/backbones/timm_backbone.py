@@ -43,10 +43,8 @@ class TIMMBackbone(BaseBackbone):
             **kwargs,
         )
 
-        # Make unused parameters None
-        self.timm_model.global_pool = None
-        self.timm_model.fc = None
-        self.timm_model.classifier = None
+        # reset classifier
+        self.timm_model.reset_classifier(0, '')
 
         # Hack to use pretrained weights from timm
         if pretrained or checkpoint_path:
@@ -54,4 +52,4 @@ class TIMMBackbone(BaseBackbone):
 
     def forward(self, x):
         features = self.timm_model.forward_features(x)
-        return features
+        return (features, )
