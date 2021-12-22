@@ -9,6 +9,7 @@ from mmcv.runner import load_checkpoint
 
 from mmcls.datasets.pipelines import Compose
 from mmcls.models import build_classifier
+import math
 
 
 def init_model(config, checkpoint=None, device='cuda:0', options=None):
@@ -51,7 +52,7 @@ def init_model(config, checkpoint=None, device='cuda:0', options=None):
     return model
 
 
-def inference_model(model, img):
+def inference_model(model, img, multi_label=False):
     """Inference image(s) with the classifier.
 
     Args:
@@ -83,6 +84,12 @@ def inference_model(model, img):
     # forward the model
     with torch.no_grad():
         scores = model(return_loss=False, **data)
+        if multi_label:
+            result = {}
+            for index, label_n in enumerate(model.CLASSES):
+                # print(index)
+                result[label_n] = np.around(scores, 3)[0][index]
+            return result
         pred_score = np.max(scores, axis=1)[0]
         pred_label = np.argmax(scores, axis=1)[0]
         result = {'pred_label': pred_label, 'pred_score': float(pred_score)}
