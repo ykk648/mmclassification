@@ -35,7 +35,6 @@ def main():
         img_name = img_p.stem
         json_path = img_p.parent / (img_name+'.json')
         result = inference_model(model, str(img_p), multi_label=True)
-        # print(result)
 
         json_dict_init = {
             "version": "4.6.0",
