@@ -1,8 +1,8 @@
 # dataset settings
 dataset_type = 'FaceAttr'
 img_norm_cfg = dict(
-    mean=[130.66653389, 111.08275716, 103.82772657],
-    std=[67.69638518, 61.18537887, 58.46574405],
+    mean=[132.38155592, 110.99284567, 102.62942472],
+    std=[68.5106407, 61.65929394, 58.61700102],
     to_rgb=True)
 
 train_pipeline = [
@@ -23,8 +23,8 @@ test_pipeline = [
     dict(type='Collect', keys=['img']),
 ]
 data = dict(
-    samples_per_gpu=16,
-    workers_per_gpu=2,
+    samples_per_gpu=56,
+    workers_per_gpu=10,
     train=dict(
         type=dataset_type,
         data_prefix='data/face_attr_1221',
@@ -45,7 +45,7 @@ data = dict(
         pipeline=test_pipeline,
         test_mode=True,
         # classes=['male', 'female']
-        ),
+    ),
 )
 evaluation = dict(
     interval=1, metric=['mAP', 'CP', 'OP', 'CR', 'OR', 'CF1', 'OF1'])

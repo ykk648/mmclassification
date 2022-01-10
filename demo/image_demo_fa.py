@@ -17,10 +17,10 @@ def make_random_name(f_name):
 def main():
     parser = ArgumentParser()
     parser.add_argument('--img_dir',
-                        default='/workspace/151_cluster/nfs/dataset/deepfacelab/标注工作区/211221_人脸属性标注/5_data_out_1w_4',
+                        default='/run/user/1000/gvfs/sftp:host=192.168.4.233,user=yons/home/yons/Documents/6_vggface2_1w_2',
                         help='Image file')
-    parser.add_argument('--config', default='cv_local_config/face_attr_1221.py', help='Config file')
-    parser.add_argument('--checkpoint', default='work_dirs/face_attr_1221/epoch_22.pth', help='Checkpoint file')
+    parser.add_argument('--config', default='local_config/face_attr_1221.py', help='Config file')
+    parser.add_argument('--checkpoint', default='work_dirs/face_attr_1221/epoch_25.pth', help='Checkpoint file')
     parser.add_argument('--device', default='cuda:0', help='Device used for inference')
     args = parser.parse_args()
 
