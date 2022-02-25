@@ -18,7 +18,7 @@ def main():
     parser = ArgumentParser()
     parser.add_argument('--img_dir',
                         # default='/workspace/codes/mmclassification/data/face_attr_1221/dataset/1_weibo低质量',
-                        default='/workspace/84_cluster/mnt/cv_rsync/dataset/HifiFace/face_source',
+                        default='/workspace/85_cluster/mnt/cv_rsync/dataset/HifiFace/face_source/multi_face_extract_40w',
                         help='Image file')
     parser.add_argument('--config', default='local_config/face_attr_1221.py', help='Config file')
     parser.add_argument('--checkpoint', default='/workspace/codes/mmclassification/work_dirs/face_attr_epoch_21_210106.pth', help='Checkpoint file')
@@ -31,12 +31,13 @@ def main():
                      'clean', 'occlusion',
                      'super_hq', 'hq', 'blur',
                      'nonhuman')
-    with open('/workspace/84_cluster/mnt/cv_rsync/dataset/HifiFace/face_quality/image_attr_all_220107_epoch_21.txt',
-              'a') as f1:
+    with open('/workspace/85_cluster/mnt/cv_rsync/dataset/HifiFace/face_quality/image_attr_multi_face_extract_40w_220118_epoch_21.txt',
+              'a') as f1: 
         for img_p in tqdm(get_path_by_ext(args.img_dir)):
             # img_name = img_p.stem
             # json_path = img_p.parent / (img_name + '.json')
             img_path_full = str(img_p)[64:]
+            # print(img_path_full)
             result = inference_model(model, str(img_p), multi_label=True)
             # print('1')
             write_temp = '{0} {1} {2} {3} {4} {5} {6} {7} {8} {9} {10}'.format(img_path_full, str(result['female']),

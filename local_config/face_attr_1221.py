@@ -25,7 +25,7 @@ model = dict(
     ),
 )
 
-load_from = '/workspace/codes/mmclassification/work_dirs/face_attr_1221/epoch_5.pth'
+load_from = '/workspace/codes/mmclassification/work_dirs/face_attr_epoch_21_210106.pth'
 # load_from = 'https://download.openmmlab.com/mmclassification/v0/mobilenet_v3/convert/mobilenet_v3_small-8427ecf0.pth'
 # load_from = 'https://download.openmmlab.com/mmclassification/v0/mobilenet_v3/convert/mobilenet_v3_large-3ea3c186.pth'
 
