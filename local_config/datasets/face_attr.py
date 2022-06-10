@@ -23,19 +23,19 @@ test_pipeline = [
     dict(type='Collect', keys=['img']),
 ]
 data = dict(
-    samples_per_gpu=56,
+    samples_per_gpu=240,
     workers_per_gpu=10,
     train=dict(
         type=dataset_type,
-        data_prefix='data/face_attr_1221',
-        ann_file='data/face_attr_1221/train.txt',
+        data_prefix='/mnt/cv_data_ljt/dataset/face_attr/face_attr_0317',
+        ann_file='/mnt/cv_data_ljt/dataset/face_attr/face_attr_0317/train.txt',
         pipeline=train_pipeline,
         # classes=['male', 'female']
     ),
     val=dict(
         type=dataset_type,
-        data_prefix='data/face_attr_1221',
-        ann_file='data/face_attr_1221/val.txt',
+        data_prefix='/mnt/cv_data_ljt/dataset/face_attr/face_attr_0317',
+        ann_file='/mnt/cv_data_ljt/dataset/face_attr/face_attr_0317/val.txt',
         pipeline=test_pipeline,
         test_mode=True,
         # classes=['male', 'female']

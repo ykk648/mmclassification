@@ -40,8 +40,12 @@ class FaceAttr(MultiLabelDataset):
             samples = [x.strip().split(' ') for x in f.readlines()]
             # print(samples)
             # try:
-            for filename, gt_label in samples:
+            for sample in samples:
                 # print(filename, gt_label)
+                try:
+                    filename, gt_label = sample
+                except ValueError:
+                    print(sample)
                 info = {'img_prefix': self.data_prefix,
                         'img_info': {'filename': filename},
                         'gt_label': np.array(list(gt_label), dtype=np.int64)
