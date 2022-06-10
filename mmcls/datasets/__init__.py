@@ -3,8 +3,6 @@ from .base_dataset import BaseDataset
 from .builder import (DATASETS, PIPELINES, SAMPLERS, build_dataloader,
                       build_dataset, build_sampler)
 from .cifar import CIFAR10, CIFAR100
-from .cub import CUB
-from .custom import CustomDataset
 from .dataset_wrappers import (ClassBalancedDataset, ConcatDataset,
                                KFoldDataset, RepeatDataset)
 from .imagenet import ImageNet
