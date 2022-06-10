@@ -2,13 +2,12 @@
 
 <!-- TOC -->
 
-- [ONNX 转 TensorRT（试验性的）](#onnx-tensorrt)
-  - [如何将模型从 ONNX 转换到 TensorRT](#id1)
-    - [准备工作](#id2)
-    - [使用方法](#id3)
-  - [支持转换至 TensorRT 的模型列表](#tensorrt)
-  - [提示](#id4)
-  - [常见问题](#id5)
+- [如何将模型从 ONNX 转换到 TensorRT](#如何将模型从-onnx-转换到-tensorrt)
+  - [准备工作](#准备工作)
+  - [使用方法](#使用方法)
+- [支持转换至 TensorRT 的模型列表](#支持转换至-tensorrt-的模型列表)
+- [提示](#提示)
+- [常见问题](#常见问题)
 
 <!-- TOC -->
 
@@ -55,13 +54,13 @@ python tools/deployment/onnx2tensorrt.py \
 
 下表列出了保证可转换为 TensorRT 的模型。
 
-|     模型     |                                    配置文件                                  |  状态  |
-| :----------: | :--------------------------------------------------------------------------: | :----: |
-| MobileNetV2  |    `configs/mobilenet_v2/mobilenet-v2_8xb32_in1k.py`                     |   Y    |
-|    ResNet    |          `configs/resnet/resnet18_8xb16_cifar10.py`                          |   Y    |
-|   ResNeXt    |     `configs/resnext/resnext50-32x4d_8xb32_in1k.py`                      |   Y    |
-| ShuffleNetV1 | `configs/shufflenet_v1/shufflenet-v1-1x_16xb64_in1k.py` |   Y    |
-| ShuffleNetV2 | `configs/shufflenet_v2/shufflenet-v2-1x_16xb64_in1k.py` |   Y    |
+|     模型     |                        配置文件                         | 状态 |
+| :----------: | :-----------------------------------------------------: | :--: |
+| MobileNetV2  |    `configs/mobilenet_v2/mobilenet-v2_8xb32_in1k.py`    |  Y   |
+|    ResNet    |       `configs/resnet/resnet18_8xb16_cifar10.py`        |  Y   |
+|   ResNeXt    |     `configs/resnext/resnext50-32x4d_8xb32_in1k.py`     |  Y   |
+| ShuffleNetV1 | `configs/shufflenet_v1/shufflenet-v1-1x_16xb64_in1k.py` |  Y   |
+| ShuffleNetV2 | `configs/shufflenet_v2/shufflenet-v2-1x_16xb64_in1k.py` |  Y   |
 
 注：
 

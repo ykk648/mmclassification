@@ -8,6 +8,7 @@ import warnings
 
 import mmcv
 import torch
+import torch.distributed as dist
 from mmcv import Config, DictAction
 from mmcv.runner import get_dist_info, init_dist
 
@@ -48,7 +49,16 @@ def parse_args():
         default=0,
         help='id of gpu to use '
         '(only applicable to non-distributed training)')
+    parser.add_argument(
+        '--ipu-replicas',
+        type=int,
+        default=None,
+        help='num of ipu replicas to use')
     parser.add_argument('--seed', type=int, default=None, help='random seed')
+    parser.add_argument(
+        '--diff-seed',
+        action='store_true',
+        help='Whether or not set different seeds for different ranks')
     parser.add_argument(
         '--deterministic',
         action='store_true',
@@ -114,6 +124,10 @@ def main():
     if args.gpus is None and args.gpu_ids is None:
         cfg.gpu_ids = [args.gpu_id]
 
+    if args.ipu_replicas is not None:
+        cfg.ipu_replicas = args.ipu_replicas
+        args.device = 'ipu'
+
     # init distributed env first, since logger depends on the dist info.
     if args.launcher == 'none':
         distributed = False
@@ -149,6 +163,7 @@ def main():
 
     # set random seeds
     seed = init_random_seed(args.seed)
+    seed = seed + dist.get_rank() if args.diff_seed else seed
     logger.info(f'Set random seed to {seed}, '
                 f'deterministic: {args.deterministic}')
     set_random_seed(seed, deterministic=args.deterministic)
@@ -180,7 +195,7 @@ def main():
         distributed=distributed,
         validate=(not args.no_validate),
         timestamp=timestamp,
-        device='cpu' if args.device == 'cpu' else 'cuda',
+        device=args.device,
         meta=meta)
 
 

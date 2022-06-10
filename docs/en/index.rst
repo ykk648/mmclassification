@@ -57,16 +57,26 @@ You can switch between Chinese and English documentation in the lower-left corne
 
 
 .. toctree::
+   :maxdepth: 1
    :caption: API Reference
 
-   api.rst
+   mmcls.apis <api/apis>
+   mmcls.core <api/core>
+   mmcls.models <api/models>
+   mmcls.models.utils <api/models.utils>
+   mmcls.datasets <api/datasets>
+   Data Transformations <api/transforms>
+   Batch Augmentation <api/models.utils.augment>
+   mmcls.utils <api/utils>
 
 
 .. toctree::
    :maxdepth: 1
-   :caption: Changelog
+   :caption: Notes
 
    changelog.md
+   compatibility.md
+   faq.md
 
 .. toctree::
    :caption: Language Switch

@@ -1,6 +1,6 @@
 <div align="center">
 
-  <img src="resources/mmcls-logo.png" width="600"/>
+<img src="resources/mmcls-logo.png" width="600"/>
   <div>&nbsp;</div>
   <div align="center">
     <b><font size="5">OpenMMLab website</font></b>
@@ -19,20 +19,19 @@
   </div>
   <div>&nbsp;</div>
 
+[![PyPI](https://img.shields.io/pypi/v/mmcls)](https://pypi.org/project/mmcls)
+[![Docs](https://img.shields.io/badge/docs-latest-blue)](https://mmclassification.readthedocs.io/en/latest/)
+[![Build Status](https://github.com/open-mmlab/mmclassification/workflows/build/badge.svg)](https://github.com/open-mmlab/mmclassification/actions)
+[![codecov](https://codecov.io/gh/open-mmlab/mmclassification/branch/master/graph/badge.svg)](https://codecov.io/gh/open-mmlab/mmclassification)
+[![license](https://img.shields.io/github/license/open-mmlab/mmclassification.svg)](https://github.com/open-mmlab/mmclassification/blob/master/LICENSE)
+[![open issues](https://isitmaintained.com/badge/open/open-mmlab/mmclassification.svg)](https://github.com/open-mmlab/mmclassification/issues)
+[![issue resolution](https://isitmaintained.com/badge/resolution/open-mmlab/mmclassification.svg)](https://github.com/open-mmlab/mmclassification/issues)
 
-  [![PyPI](https://img.shields.io/pypi/v/mmcls)](https://pypi.org/project/mmcls)
-  [![Docs](https://img.shields.io/badge/docs-latest-blue)](https://mmclassification.readthedocs.io/en/latest/)
-  [![Build Status](https://github.com/open-mmlab/mmclassification/workflows/build/badge.svg)](https://github.com/open-mmlab/mmclassification/actions)
-  [![codecov](https://codecov.io/gh/open-mmlab/mmclassification/branch/master/graph/badge.svg)](https://codecov.io/gh/open-mmlab/mmclassification)
-  [![license](https://img.shields.io/github/license/open-mmlab/mmclassification.svg)](https://github.com/open-mmlab/mmclassification/blob/master/LICENSE)
-  [![open issues](https://isitmaintained.com/badge/open/open-mmlab/mmclassification.svg)](https://github.com/open-mmlab/mmclassification/issues)
-  [![issue resolution](https://isitmaintained.com/badge/resolution/open-mmlab/mmclassification.svg)](https://github.com/open-mmlab/mmclassification/issues)
-
-  [📘 Documentation](https://mmclassification.readthedocs.io/en/latest/) |
-  [🛠️ Installation](https://mmclassification.readthedocs.io/en/latest/install.html) |
-  [👀 Model Zoo](https://mmclassification.readthedocs.io/en/latest/model_zoo.html) |
-  [🆕 Update News](https://mmclassification.readthedocs.io/en/latest/changelog.html) |
-  [🤔 Reporting Issues](https://github.com/open-mmlab/mmclassification/issues/new/choose)
+[📘 Documentation](https://mmclassification.readthedocs.io/en/latest/) |
+[🛠️ Installation](https://mmclassification.readthedocs.io/en/latest/install.html) |
+[👀 Model Zoo](https://mmclassification.readthedocs.io/en/latest/model_zoo.html) |
+[🆕 Update News](https://mmclassification.readthedocs.io/en/latest/changelog.html) |
+[🤔 Reporting Issues](https://github.com/open-mmlab/mmclassification/issues/new/choose)
 
 </div>
 
@@ -59,25 +58,38 @@ The master branch works with **PyTorch 1.5+**.
 
 ## What's new
 
-v0.21.0 was released in 4/3/2022.
+v0.23.0 was released in 1/5/2022.
+Highlights of the new version:
+
+- Support **DenseNet**, **VAN** and **PoolFormer**, and provide pre-trained models.
+- Support training on IPU.
+- New style API docs, welcome [view it](https://mmclassification.readthedocs.io/en/master/api/models.html).
+
+v0.22.0 was released in 30/3/2022.
 
 Highlights of the new version:
-- Support **ResNetV1c** and **Wide-ResNet**, and provide pre-trained models.
-- Support **dynamic input shape** for ViT-based algorithms. Now our ViT, DeiT, Swin-Transformer and T2T-ViT support forwarding with any input shape.
-- Reproduce training results of DeiT. And our DeiT-T and DeiT-S have **higher accuracy** comparing with the official weights.
 
-v0.20.0 was released in 30/1/2022.
-
-Highlights of the new version:
-- Support **K-fold cross-validation**. The tutorial will be released later.
-- Support **HRNet**, **ConvNeXt**, **Twins** and **EfficientNet**.
-- Support model conversion from PyTorch to **Core ML** by a tool.
+- Support a series of **CSP Network**, such as CSP-ResNet, CSP-ResNeXt and CSP-DarkNet.
+- A new `CustomDataset` class to help you **build dataset of yourself**!
+- Support new backbones - **ConvMixer**, **RepMLP** and new dataset - **CUB dataset**.
 
 Please refer to [changelog.md](docs/en/changelog.md) for more details and other release history.
 
 ## Installation
 
-Please refer to [install.md](https://mmclassification.readthedocs.io/en/latest/install.html) for installation and dataset preparation.
+Below are quick steps for installation:
+
+```shell
+conda create -n open-mmlab python=3.8 pytorch=1.10 cudatoolkit=11.3 torchvision -c pytorch -y
+conda activate open-mmlab
+pip3 install openmim
+mim install mmcv-full
+git clone https://github.com/open-mmlab/mmclassification.git
+cd mmclassification
+pip3 install -e .
+```
+
+Please refer to [install.md](https://mmclassification.readthedocs.io/en/latest/install.html) for more detailed installation and dataset preparation.
 
 ## Getting Started
 
@@ -108,7 +120,7 @@ Results and models are available in the [model zoo](https://mmclassification.rea
 - [x] [ResNeXt](https://github.com/open-mmlab/mmclassification/tree/master/configs/resnext)
 - [x] [SE-ResNet](https://github.com/open-mmlab/mmclassification/tree/master/configs/seresnet)
 - [x] [SE-ResNeXt](https://github.com/open-mmlab/mmclassification/tree/master/configs/seresnet)
-- [x] [RegNet](https://github.com/open-mmlab/mmclassification/tree/master/configs/repvgg)
+- [x] [RegNet](https://github.com/open-mmlab/mmclassification/tree/master/configs/regnet)
 - [x] [ShuffleNetV1](https://github.com/open-mmlab/mmclassification/tree/master/configs/shufflenet_v1)
 - [x] [ShuffleNetV2](https://github.com/open-mmlab/mmclassification/tree/master/configs/shufflenet_v2)
 - [x] [MobileNetV2](https://github.com/open-mmlab/mmclassification/tree/master/configs/mobilenet_v2)
@@ -126,6 +138,10 @@ Results and models are available in the [model zoo](https://mmclassification.rea
 - [x] [EfficientNet](https://github.com/open-mmlab/mmclassification/tree/master/configs/efficientnet)
 - [x] [ConvNeXt](https://github.com/open-mmlab/mmclassification/tree/master/configs/convnext)
 - [x] [HRNet](https://github.com/open-mmlab/mmclassification/tree/master/configs/hrnet)
+- [x] [VAN](https://github.com/open-mmlab/mmclassification/tree/master/configs/van)
+- [x] [ConvMixer](https://github.com/open-mmlab/mmclassification/tree/master/configs/convmixer)
+- [x] [CSPNet](https://github.com/open-mmlab/mmclassification/tree/master/configs/cspnet)
+- [x] [PoolFormer](https://github.com/open-mmlab/mmclassification/tree/master/configs/poolformer)
 
 </details>
 

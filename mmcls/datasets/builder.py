@@ -11,6 +11,11 @@ from mmcv.runner import get_dist_info
 from mmcv.utils import Registry, build_from_cfg, digit_version
 from torch.utils.data import DataLoader
 
+try:
+    from mmcv.utils import IS_IPU_AVAILABLE
+except ImportError:
+    IS_IPU_AVAILABLE = False
+
 if platform.system() != 'Windows':
     # https://github.com/pytorch/pytorch/issues/973
     import resource
@@ -104,7 +109,8 @@ def build_dataloader(dataset,
         sampler = build_sampler(
             sampler_cfg,
             default_args=dict(
-                dataset=dataset, num_replicas=world_size, rank=rank))
+                dataset=dataset, num_replicas=world_size, rank=rank,
+                seed=seed))
     # Default sampler logic
     elif dist:
         sampler = build_sampler(
@@ -114,7 +120,8 @@ def build_dataloader(dataset,
                 num_replicas=world_size,
                 rank=rank,
                 shuffle=shuffle,
-                round_up=round_up))
+                round_up=round_up,
+                seed=seed))
     else:
         sampler = None
 
@@ -135,17 +142,27 @@ def build_dataloader(dataset,
 
     if digit_version(torch.__version__) >= digit_version('1.8.0'):
         kwargs['persistent_workers'] = persistent_workers
-
-    data_loader = DataLoader(
-        dataset,
-        batch_size=batch_size,
-        sampler=sampler,
-        num_workers=num_workers,
-        collate_fn=partial(collate, samples_per_gpu=samples_per_gpu),
-        pin_memory=pin_memory,
-        shuffle=shuffle,
-        worker_init_fn=init_fn,
-        **kwargs)
+    if IS_IPU_AVAILABLE:
+        from mmcv.device.ipu import IPUDataLoader
+        data_loader = IPUDataLoader(
+            dataset,
+            None,
+            batch_size=samples_per_gpu,
+            num_workers=num_workers,
+            shuffle=shuffle,
+            worker_init_fn=init_fn,
+            **kwargs)
+    else:
+        data_loader = DataLoader(
+            dataset,
+            batch_size=batch_size,
+            sampler=sampler,
+            num_workers=num_workers,
+            collate_fn=partial(collate, samples_per_gpu=samples_per_gpu),
+            pin_memory=pin_memory,
+            shuffle=shuffle,
+            worker_init_fn=init_fn,
+            **kwargs)
 
     return data_loader
 
@@ -156,6 +173,7 @@ def worker_init_fn(worker_id, num_workers, rank, seed):
     worker_seed = num_workers * rank + worker_id + seed
     np.random.seed(worker_seed)
     random.seed(worker_seed)
+    torch.manual_seed(worker_seed)
 
 
 def build_sampler(cfg, default_args=None):

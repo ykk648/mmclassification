@@ -7,14 +7,8 @@
 - [定制工作流](#定制工作流)
 - [钩子](#钩子)
   - [默认训练钩子](#默认训练钩子)
-    - [权重文件钩子（CheckpointHook）](#权重文件钩子（checkpointhook）)
-    - [日志钩子（LoggerHooks）](#日志钩子（loggerhooks）)
-    - [验证钩子（EvalHook）](#验证钩子（evalhook）)
   - [使用内置钩子](#使用内置钩子)
   - [自定义钩子](#自定义钩子)
-    - [1. 创建一个新钩子](#1.-创建一个新钩子)
-    - [2. 注册新钩子](#2.-注册新钩子)
-    - [3. 修改配置](#3.-修改配置)
 - [常见问题](#常见问题)
 
 <!-- TOC -->
@@ -66,17 +60,17 @@ workflow = [('train', 1)]
 
 **优先级列表**
 
-| Level           | Value      |
-|:--:|:--:|
-| HIGHEST         | 0          |
-| VERY_HIGH       | 10         |
-| HIGH            | 30         |
-| ABOVE_NORMAL    | 40         |
-| NORMAL(default) | 50         |
-| BELOW_NORMAL    | 60         |
-| LOW             | 70         |
-| VERY_LOW        | 90         |
-| LOWEST          | 100        |
+|      Level      | Value |
+| :-------------: | :---: |
+|     HIGHEST     |   0   |
+|    VERY_HIGH    |  10   |
+|      HIGH       |  30   |
+|  ABOVE_NORMAL   |  40   |
+| NORMAL(default) |  50   |
+|  BELOW_NORMAL   |  60   |
+|       LOW       |  70   |
+|    VERY_LOW     |  90   |
+|     LOWEST      |  100  |
 
 优先级确定钩子的执行顺序，每次训练前，日志会打印出各个阶段钩子的执行顺序，方便调试。
 
@@ -84,16 +78,15 @@ workflow = [('train', 1)]
 
 有一些常见的钩子未通过 `custom_hooks` 注册，但会在运行器（`Runner`）中默认注册，它们是：
 
-| Hooks                  | Priority                |
-|:--:|:--:|
-| `LrUpdaterHook`        | VERY_HIGH (10)          |
-| `MomentumUpdaterHook`  | HIGH (30)               |
-| `OptimizerHook`        | ABOVE_NORMAL (40)       |
-| `CheckpointHook`       | NORMAL (50)             |
-| `IterTimerHook`        | LOW (70)                |
-| `EvalHook`             | LOW (70)                |
-| `LoggerHook(s)`        | VERY_LOW (90)           |
-
+|         Hooks         |     Priority      |
+| :-------------------: | :---------------: |
+|    `LrUpdaterHook`    |  VERY_HIGH (10)   |
+| `MomentumUpdaterHook` |     HIGH (30)     |
+|    `OptimizerHook`    | ABOVE_NORMAL (40) |
+|   `CheckpointHook`    |    NORMAL (50)    |
+|    `IterTimerHook`    |     LOW (70)      |
+|      `EvalHook`       |     LOW (70)      |
+|    `LoggerHook(s)`    |   VERY_LOW (90)   |
 
 `OptimizerHook`，`MomentumUpdaterHook`和 `LrUpdaterHook` 在 [优化策略](./schedule.md) 部分进行了介绍，
 `IterTimerHook` 用于记录所用时间，目前不支持修改;
@@ -183,7 +176,7 @@ custom_hooks = [
 
 ## 自定义钩子
 
-### 1. 创建一个新钩子
+### 创建一个新钩子
 
 这里举一个在 MMClassification 中创建一个新钩子，并在训练中使用它的示例：
 
@@ -218,13 +211,13 @@ class MyHook(Hook):
 
 根据钩子的功能，用户需要指定钩子在训练的每个阶段将要执行的操作，比如 `before_run`，`after_run`，`before_epoch`，`after_epoch`，`before_iter` 和 `after_iter`。
 
-### 2. 注册新钩子
+### 注册新钩子
 
 之后，需要导入 `MyHook`。假设该文件在 `mmcls/core/utils/my_hook.py`，有两种办法导入它：
 
 - 修改 `mmcls/core/utils/__init__.py` 进行导入
 
-    新定义的模块应导入到 `mmcls/core/utils/__init__py` 中，以便注册器能找到并添加新模块：
+  新定义的模块应导入到 `mmcls/core/utils/__init__py` 中，以便注册器能找到并添加新模块：
 
 ```python
 from .my_hook import MyHook
@@ -238,7 +231,7 @@ __all__ = ['MyHook']
 custom_imports = dict(imports=['mmcls.core.utils.my_hook'], allow_failed_imports=False)
 ```
 
-### 3. 修改配置
+### 修改配置
 
 ```python
 custom_hooks = [
@@ -255,7 +248,6 @@ custom_hooks = [
 ```
 
 默认情况下，在注册过程中，钩子的优先级设置为“NORMAL”。
-
 
 ## 常见问题
 

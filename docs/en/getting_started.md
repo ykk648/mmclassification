@@ -32,8 +32,8 @@ For ImageNet, it has multiple versions, but the most commonly used one is [ILSVR
 
 1. Register an account and login to the [download page](http://www.image-net.org/download-images).
 2. Find download links for ILSVRC2012 and download the following two files
-    - ILSVRC2012_img_train.tar (~138GB)
-    - ILSVRC2012_img_val.tar (~6.3GB)
+   - ILSVRC2012_img_train.tar (~138GB)
+   - ILSVRC2012_img_val.tar (~6.3GB)
 3. Untar the downloaded files
 4. Download meta data using this [script](https://github.com/BVLC/caffe/blob/master/data/ilsvrc12/get_ilsvrc_aux.sh)
 
@@ -130,7 +130,7 @@ And then run the script [above](#train-with-a-single-gpu).
 The process of training on the CPU is consistent with single GPU training. We just need to disable GPUs before the training process.
 ```
 
-### Train with multiple GPUs
+### Train with multiple GPUs in single machine
 
 ```shell
 ./tools/dist_train.sh ${CONFIG_FILE} ${GPU_NUM} [optional arguments]
@@ -147,6 +147,22 @@ Difference between `resume-from` and `load-from`:
 `load-from` only loads the model weights and the training epoch starts from 0. It is usually used for finetuning.
 
 ### Train with multiple machines
+
+If you launch with multiple machines simply connected with ethernet, you can simply run following commands:
+
+On the first machine:
+
+```shell
+NNODES=2 NODE_RANK=0 PORT=$MASTER_PORT MASTER_ADDR=$MASTER_ADDR sh tools/dist_train.sh $CONFIG $GPUS
+```
+
+On the second machine:
+
+```shell
+NNODES=2 NODE_RANK=1 PORT=$MASTER_PORT MASTER_ADDR=$MASTER_ADDR sh tools/dist_train.sh $CONFIG $GPUS
+```
+
+Usually it is slow if you do not have high speed networking like InfiniBand.
 
 If you run MMClassification on a cluster managed with [slurm](https://slurm.schedmd.com/), you can use the script `slurm_train.sh`. (This script also supports single machine training.)
 
@@ -193,6 +209,11 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 GPUS=4 ./tools/slurm_train.sh ${PARTITION} ${JOB_NA
 CUDA_VISIBLE_DEVICES=4,5,6,7 GPUS=4 ./tools/slurm_train.sh ${PARTITION} ${JOB_NAME} config2.py ${WORK_DIR}
 ```
 
+### Train with IPU
+
+The process of training on the IPU is consistent with single GPU training. We just need to have IPU machine and environment
+and add an extra argument `--ipu-replicas ${IPU_NUM}`
+
 ## Useful tools
 
 We provide lots of useful tools under `tools/` directory.
@@ -224,6 +245,7 @@ This tool is still experimental and we do not guarantee that the number is corre
 ### Publish a model
 
 Before you publish a model, you may want to
+
 1. Convert model weights to CPU tensors.
 2. Delete the optimizer states.
 3. Compute the hash of the checkpoint file and append the hash id to the filename.
