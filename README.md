@@ -33,6 +33,8 @@
 [🆕 Update News](https://mmclassification.readthedocs.io/en/latest/changelog.html) |
 [🤔 Reporting Issues](https://github.com/open-mmlab/mmclassification/issues/new/choose)
 
+:point_right: **MMClassification 1.0 branch is in trial, welcome every to [try it](https://github.com/open-mmlab/mmclassification/tree/1.x) and [discuss with us](https://github.com/open-mmlab/mmclassification/discussions)!** :point_left:
+
 </div>
 
 ## Introduction
@@ -58,20 +60,26 @@ The master branch works with **PyTorch 1.5+**.
 
 ## What's new
 
-v0.23.0 was released in 1/5/2022.
+The MMClassification 1.0 has released! It's still unstable and in release candidate. If you want to try it, go
+to [the 1.x branch](https://github.com/open-mmlab/mmclassification/tree/1.x) and discuss it with us in
+[the discussion](https://github.com/open-mmlab/mmclassification/discussions).
+
+v0.25.0 was released in 06/12/2022.
 Highlights of the new version:
 
-- Support **DenseNet**, **VAN** and **PoolFormer**, and provide pre-trained models.
-- Support training on IPU.
-- New style API docs, welcome [view it](https://mmclassification.readthedocs.io/en/master/api/models.html).
+- Support MLU backend.
+- Add `dist_train_arm.sh` for ARM device.
 
-v0.22.0 was released in 30/3/2022.
-
+v0.24.1 was released in 31/10/2022.
 Highlights of the new version:
 
-- Support a series of **CSP Network**, such as CSP-ResNet, CSP-ResNeXt and CSP-DarkNet.
-- A new `CustomDataset` class to help you **build dataset of yourself**!
-- Support new backbones - **ConvMixer**, **RepMLP** and new dataset - **CUB dataset**.
+- Support HUAWEI Ascend device.
+
+v0.24.0 was released in 30/9/2022.
+Highlights of the new version:
+
+- Support **HorNet**, **EfficientFormerm**, **SwinTransformer V2** and **MViT** backbones.
+- Support Standford Cars dataset.
 
 Please refer to [changelog.md](docs/en/changelog.md) for more details and other release history.
 
@@ -80,7 +88,7 @@ Please refer to [changelog.md](docs/en/changelog.md) for more details and other 
 Below are quick steps for installation:
 
 ```shell
-conda create -n open-mmlab python=3.8 pytorch=1.10 cudatoolkit=11.3 torchvision -c pytorch -y
+conda create -n open-mmlab python=3.8 pytorch=1.10 cudatoolkit=11.3 torchvision==0.11.0 -c pytorch -y
 conda activate open-mmlab
 pip3 install openmim
 mim install mmcv-full
@@ -142,6 +150,9 @@ Results and models are available in the [model zoo](https://mmclassification.rea
 - [x] [ConvMixer](https://github.com/open-mmlab/mmclassification/tree/master/configs/convmixer)
 - [x] [CSPNet](https://github.com/open-mmlab/mmclassification/tree/master/configs/cspnet)
 - [x] [PoolFormer](https://github.com/open-mmlab/mmclassification/tree/master/configs/poolformer)
+- [x] [MViT](https://github.com/open-mmlab/mmclassification/tree/master/configs/mvit)
+- [x] [EfficientFormer](https://github.com/open-mmlab/mmclassification/tree/master/configs/efficientformer)
+- [x] [HorNet](https://github.com/open-mmlab/mmclassification/tree/master/configs/hornet)
 
 </details>
 
