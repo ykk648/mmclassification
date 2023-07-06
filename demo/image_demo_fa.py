@@ -16,11 +16,9 @@ def make_random_name(f_name):
 
 def main():
     parser = ArgumentParser()
-    parser.add_argument('--img_dir',
-                        default='/workspace/85_cluster/mnt/dataset/download/multi_face_extract/multi_face_extract_5w_1',
-                        help='Image file')
+    parser.add_argument('--img_dir', default='', help='Image file')
     parser.add_argument('--config', default='local_config/face_attr_1221.py', help='Config file')
-    parser.add_argument('--checkpoint', default='/workspace/codes/mmclassification/work_dirs/face_attr_epoch_21_210106.pth', help='Checkpoint file')
+    parser.add_argument('--checkpoint', default='', help='Checkpoint file')
     parser.add_argument('--device', default='cuda:0', help='Device used for inference')
     args = parser.parse_args()
 
@@ -33,7 +31,7 @@ def main():
 
     for img_p in tqdm(get_path_by_ext(args.img_dir)):
         img_name = img_p.stem
-        json_path = img_p.parent / (img_name+'.json')
+        json_path = img_p.parent / (img_name + '.json')
         result = inference_model(model, str(img_p), multi_label=True)
 
         json_dict_init = {
